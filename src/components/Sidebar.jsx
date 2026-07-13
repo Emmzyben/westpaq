@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, Boxes, ClipboardList, Users, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, Boxes, ClipboardList, Users, UserCircle2, X } from "lucide-react";
 import { C } from "../theme/tokens";
 import { Avatar } from "./Avatar";
 
@@ -11,7 +11,7 @@ const navItems = [
   { id: "profile", label: "Profile", icon: UserCircle2, group: "People", path: "/profile" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ isOpen, setIsOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,23 +25,47 @@ export function Sidebar() {
   };
   const activeNav = activeId();
 
+  const handleNav = (path) => {
+    navigate(path);
+    setIsOpen(false); // Close on mobile navigation
+  };
+
   return (
-    <aside
-      className="w-60 flex-shrink-0 bg-white border-r flex flex-col p-4 sticky top-0 h-screen"
-      style={{ borderColor: C.border }}
-    >
-      <div
-        className="flex items-center gap-2.5 pb-5 mb-4 border-b"
+    <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+      
+      <aside
+        className={`w-60 flex-shrink-0 bg-white border-r flex flex-col p-4 fixed md:sticky top-0 h-screen z-50 transition-transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
         style={{ borderColor: C.border }}
       >
-        <svg width={22} height={19} viewBox="0 0 60 52">
-          <polygon points="0,0 34,26 0,52" fill={C.red} />
-          <polygon points="24,0 58,26 24,52" fill={C.redDark} />
-        </svg>
-        <span className="font-extrabold text-sm">
-          WEST<span style={{ color: C.red }}>PAQ</span>
-        </span>
-      </div>
+        <div
+          className="flex items-center justify-between pb-5 mb-4 border-b"
+          style={{ borderColor: C.border }}
+        >
+          <div className="flex items-center gap-2.5">
+            <svg width={22} height={19} viewBox="0 0 60 52">
+              <polygon points="0,0 34,26 0,52" fill={C.red} />
+              <polygon points="24,0 58,26 24,52" fill={C.redDark} />
+            </svg>
+            <span className="font-extrabold text-sm">
+              WEST<span style={{ color: C.red }}>PAQ</span>
+            </span>
+          </div>
+          <button
+            className="md:hidden w-8 h-8 rounded-lg flex items-center justify-center bg-gray-100"
+            onClick={() => setIsOpen(false)}
+          >
+            <X size={16} />
+          </button>
+        </div>
 
       {["Overview", "Assets", "People"].map((group) => (
         <div key={group}>
@@ -59,7 +83,7 @@ export function Sidebar() {
               return (
                 <div
                   key={n.id}
-                  onClick={() => navigate(n.path)}
+                  onClick={() => handleNav(n.path)}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5 text-sm font-semibold cursor-pointer relative"
                   style={
                     active
@@ -83,7 +107,7 @@ export function Sidebar() {
 
       <div className="mt-auto pt-4 border-t" style={{ borderColor: C.border }}>
         <div
-          onClick={() => navigate("/profile")}
+          onClick={() => handleNav("/profile")}
           className="flex items-center gap-2.5 p-2 rounded-lg cursor-pointer hover:bg-gray-50"
         >
           <Avatar name="Amaka Okoro" size={34} />
@@ -94,5 +118,6 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }

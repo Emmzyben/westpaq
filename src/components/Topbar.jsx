@@ -11,21 +11,33 @@ const META = {
   "/profile": { title: "Profile", crumb: "Your account" },
 };
 
-export function Topbar({ onNewEntry }) {
+export function Topbar({ onNewEntry, onMenuClick }) {
   const location = useLocation();
   const base = location.pathname.startsWith("/inventory/") ? "/inventory" : location.pathname;
   const meta = META[base] || { title: "WestPaq", crumb: "" };
 
   return (
     <div
-      className="border-b flex items-center justify-between px-7 sticky top-0 backdrop-blur z-10"
+      className="border-b flex items-center justify-between px-4 md:px-7 sticky top-0 backdrop-blur z-10"
       style={{ borderColor: C.border, height: 68, background: "rgba(255,255,255,0.9)" }}
     >
-      <div>
-        <h2 className="font-bold text-lg">{meta.title}</h2>
-        <div className="text-xs" style={{ color: C.ink3 }}>{meta.crumb}</div>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onMenuClick}
+          className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center bg-gray-100"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div>
+          <h2 className="font-bold text-lg leading-tight">{meta.title}</h2>
+          <div className="text-xs hidden sm:block" style={{ color: C.ink3 }}>{meta.crumb}</div>
+        </div>
       </div>
-      <div className="flex items-center gap-3.5">
+      <div className="flex items-center gap-2 md:gap-3.5">
         <div
           className="hidden md:flex items-center gap-2 rounded-lg px-3.5 py-2 w-64"
           style={{ background: C.cardHi, border: `1px solid ${C.border}` }}

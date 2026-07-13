@@ -19,6 +19,7 @@ const emptyForm = {
 };
 
 export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [staff, setStaff] = useState(STAFF_INIT);
   const [equipment, setEquipment] = useState(EQUIPMENT_INIT);
@@ -92,10 +93,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex" style={{ background: C.bg, color: C.ink, fontFamily: "Inter, sans-serif" }}>
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="flex-1 min-w-0">
-        <Topbar onNewEntry={() => setAddOpen(true)} />
-        <div className="p-7">
+        <Topbar onNewEntry={() => setAddOpen(true)} onMenuClick={() => setSidebarOpen(true)} />
+        <div className="p-4 md:p-7">
           <Routes>
             <Route path="/" element={
               <Dashboard equipment={equipment} log={log} staff={staff} />
