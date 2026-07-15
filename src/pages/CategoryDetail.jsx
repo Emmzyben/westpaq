@@ -1,15 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { C } from "../theme/tokens";
-import { CATS } from "../data/mockData";
 import { CatIcon } from "../components/CatIcon";
 import { EquipCard } from "../components/EquipCard";
-
-export default function CategoryDetail({ equipment, staffById, setViewItem }) {
+export default function CategoryDetail({ equipment, staffById, setViewItem, categories }) {
   const navigate = useNavigate();
   const { catId } = useParams();
 
-  const cat = CATS.find((c) => c.id === catId);
+  const cat = categories.find((c) => c.id === catId);
   const items = equipment.filter((e) => e.cat === catId);
 
   if (!cat) return null;
@@ -34,6 +32,7 @@ export default function CategoryDetail({ equipment, staffById, setViewItem }) {
           <h2 className="font-bold text-xl">{cat.name}</h2>
           <p className="text-xs" style={{ color: C.ink3 }}>{items.length} items in this category</p>
         </div>
+
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

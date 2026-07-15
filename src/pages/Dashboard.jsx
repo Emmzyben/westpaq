@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { ClipboardList, Users, TrendingUp, Minus } from "lucide-react";
 import { C } from "../theme/tokens";
 import { CatIcon } from "../components/CatIcon";
-import { CATS } from "../data/mockData";
 
-export default function Dashboard({ equipment, log, staff }) {
+export default function Dashboard({ equipment, log, staff, categories }) {
   const navigate = useNavigate();
 
   const stats = {
@@ -14,7 +13,7 @@ export default function Dashboard({ equipment, log, staff }) {
     staff: staff.length,
   };
   const top5 = [...equipment].sort((a, b) => b.qty - a.qty).slice(0, 5);
-  const catById = (id) => CATS.find((c) => c.id === id);
+  const catById = (id) => categories.find((c) => c.id === id);
 
   return (
     <div>

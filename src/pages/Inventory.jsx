@@ -1,21 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { C, PAL, ICON_COLOR } from "../theme/tokens";
-import { CATS } from "../data/mockData";
 import { CatIcon } from "../components/CatIcon";
 
-export default function Inventory({ equipment }) {
+export default function Inventory({ equipment, categories }) {
   const navigate = useNavigate();
 
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Inventory by category</h1>
+        <h1 className="text-2xl font-bold">Categories</h1>
         <p className="text-sm mt-1.5 max-w-xl" style={{ color: C.ink2 }}>
-          Every asset class on record, grouped the way the yard actually sees it. Open a category to see what's on the shelf, what's out, and who's got it.
+          Every asset class on record, grouped the way it is actually used. Open a category to see associated equipment.
         </p>
+
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {CATS.map((c) => {
+        {categories.map((c) => {
           const count = equipment.filter((e) => e.cat === c.id).length;
           return (
             <div
@@ -24,12 +24,18 @@ export default function Inventory({ equipment }) {
               className="relative rounded-3xl overflow-hidden cursor-pointer h-60 flex flex-col justify-end border transition hover:-translate-y-1.5"
               style={{
                 borderColor: C.border,
-                background: `radial-gradient(120% 120% at 20% 15%, ${PAL[c.id].from}, ${PAL[c.id].to} 65%)`,
+                background: c.img ? '#000' : (PAL[c.id] ? `radial-gradient(120% 120% at 20% 15%, ${PAL[c.id].from}, ${PAL[c.id].to} 65%)` : `radial-gradient(120% 120% at 20% 15%, ${C.red}1A, ${C.red}05 65%)`),
               }}
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <CatIcon cat={c.id} size={92} color={ICON_COLOR[c.id]} />
-              </div>
+              {c.img ? (
+                <div className="absolute inset-0">
+                  <img src={c.img} className="w-full h-full object-cover opacity-80" alt={c.name} />
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <CatIcon cat={c.id} size={92} color={ICON_COLOR[c.id] || C.red} />
+                </div>
+              )}
               <div
                 className="absolute inset-0"
                 style={{ background: "linear-gradient(180deg, transparent 28%, rgba(0,0,0,0.8) 100%)" }}

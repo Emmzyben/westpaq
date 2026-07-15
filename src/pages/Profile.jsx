@@ -13,9 +13,7 @@ export default function Profile({ log }) {
         </div>
         <h3 className="font-bold text-lg">Amaka Okoro</h3>
         <div className="text-sm" style={{ color: C.ink3 }}>Administrator · Yard Office</div>
-        <div className="flex justify-center gap-2 mt-3.5">
-          <Badge status="in" /><Badge status="return" />
-        </div>
+
         <div className="mt-5 border-t pt-1 text-left" style={{ borderColor: C.border }}>
           {[
             ["Email", "amaka.okoro@westpaq.com"],
@@ -29,7 +27,6 @@ export default function Profile({ log }) {
             </div>
           ))}
         </div>
-        <div className="mt-5"><Btn variant="ghost" full>Edit profile</Btn></div>
       </div>
 
       {/* Settings + Recent */}
@@ -44,10 +41,6 @@ export default function Profile({ log }) {
             <div>
               <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Notification email</label>
               <input defaultValue="amaka.okoro@westpaq.com" className="w-full px-3.5 py-2.5 rounded-lg text-sm" style={{ border: `1px solid ${C.border}` }} />
-            </div>
-            <div className="flex justify-between items-center text-sm">
-              <span>Two-factor authentication</span>
-              <Badge status="in" />
             </div>
           </div>
         </div>

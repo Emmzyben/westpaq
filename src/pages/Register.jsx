@@ -1,39 +1,55 @@
 import { useState } from "react";
 import { C } from "../theme/tokens";
-import { CATS } from "../data/mockData";
 import { Badge } from "../components/Badge";
 import { Avatar } from "../components/Avatar";
 import { Btn } from "../components/Btn";
 
-export default function Register({ log, setAddOpen }) {
+export default function Register({ log, categories, onNewCheckout, onReturn, onDetails }) {
   const [regFilter, setRegFilter] = useState("all");
+  const [catFilter, setCatFilter] = useState("all");
 
-  const catById = (id) => CATS.find((c) => c.id === id);
-  const regRows = regFilter === "all" ? log : log.filter((l) => l.status === regFilter);
+  const catById = (id) => categories.find((c) => c.id === id);
+  const regRows = log
+    .filter((l) => regFilter === "all" || l.status === regFilter)
+    .filter((l) => catFilter === "all" || l.cat === catFilter);
+
+  const selectStyle = {
+    border: `1px solid ${C.border}`,
+    color: C.ink,
+    background: "#fff",
+    backgroundImage: "none",
+  };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-5 gap-3 flex-wrap">
-        <div className="flex gap-2 flex-wrap">
-          {[["all", "All movements"], ["out", "Checked Out"], ["in", "Checked In"], ["return", "Returned"]].map(
-            ([f, label]) => (
-              <button
-                key={f}
-                onClick={() => setRegFilter(f)}
-                className="px-3.5 py-2 rounded-full text-xs font-semibold border"
-                style={
-                  regFilter === f
-                    ? { background: C.red, borderColor: C.red, color: "#fff" }
-                    : { background: "#fff", borderColor: C.border, color: C.ink2 }
-                }
-              >
-                {label}
-              </button>
-            )
-          )}
+        <div className="flex gap-2.5 flex-wrap items-center">
+          <select
+            value={regFilter}
+            onChange={(e) => setRegFilter(e.target.value)}
+            className="px-3.5 py-2 rounded-lg text-sm font-semibold cursor-pointer"
+            style={selectStyle}
+          >
+            <option value="all">All movements</option>
+            <option value="out">Checked Out</option>
+            <option value="in">Checked In</option>
+            <option value="return">Returned</option>
+          </select>
+
+          <select
+            value={catFilter}
+            onChange={(e) => setCatFilter(e.target.value)}
+            className="px-3.5 py-2 rounded-lg text-sm font-semibold cursor-pointer"
+            style={selectStyle}
+          >
+            <option value="all">All categories</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
         </div>
         <div className="flex gap-2.5">
-          <Btn variant="primary" small onClick={() => setAddOpen(true)}>+ New Entry</Btn>
+          <Btn variant="primary" small onClick={onNewCheckout}>+ New Checkout</Btn>
           <Btn variant="ghost" small>Export Excel</Btn>
           <Btn variant="dark" small>Export PDF</Btn>
         </div>
@@ -42,7 +58,7 @@ export default function Register({ log, setAddOpen }) {
       {/* Table header (desktop) */}
       <div
         className="hidden lg:grid gap-3.5 px-4 mb-2.5"
-        style={{ gridTemplateColumns: "120px 1fr 1fr 1fr 130px 90px" }}
+        style={{ gridTemplateColumns: "110px 1.5fr 1.5fr 1fr 110px 170px" }}
       >
         {["Date out", "Equipment", "Technician", "Category", "Status", ""].map((h) => (
           <span key={h} className="text-xs uppercase tracking-wide font-bold" style={{ color: C.ink3 }}>{h}</span>
@@ -55,9 +71,9 @@ export default function Register({ log, setAddOpen }) {
           <div
             key={i}
             className="hidden lg:grid items-center gap-3.5 bg-white border rounded-xl px-4 py-3.5"
-            style={{ borderColor: C.border, gridTemplateColumns: "120px 1fr 1fr 1fr 130px 90px" }}
+            style={{ borderColor: C.border, gridTemplateColumns: "110px 1.5fr 1.5fr 1fr 110px 170px" }}
           >
-            <div className="font-mono text-xs" style={{ color: C.ink3 }}>{l.date}</div>
+            <div className="font-mono text-xs" style={{ color: C.ink3 }}>{l.dateOut?.substring(0, 10)}<br/>{l.dateOut?.substring(11, 16)}</div>
             <div>
               <b className="block text-sm">{l.name}</b>
               <span className="font-mono text-xs" style={{ color: C.ink3 }}>{l.tag}</span>
@@ -68,8 +84,11 @@ export default function Register({ log, setAddOpen }) {
             </div>
             <div className="text-sm" style={{ color: C.ink2 }}>{catById(l.cat)?.name}</div>
             <Badge status={l.status} />
-            <div className="flex justify-end">
-              <Btn variant="ghost" small>Details</Btn>
+            <div className="flex justify-end gap-2">
+              {l.status === "out" && (
+                <Btn variant="primary" small onClick={() => onReturn(l)}>Return</Btn>
+              )}
+              <Btn variant="ghost" small onClick={() => onDetails(l)}>Details</Btn>
             </div>
           </div>
         ))}
@@ -91,7 +110,13 @@ export default function Register({ log, setAddOpen }) {
               <span>Category</span><b style={{ color: C.ink }}>{catById(l.cat)?.name}</b>
             </div>
             <div className="flex justify-between text-sm py-1" style={{ color: C.ink2 }}>
-              <span>Date out</span><b style={{ color: C.ink }}>{l.date}</b>
+              <span>Date out</span><b style={{ color: C.ink }}>{l.dateOut}</b>
+            </div>
+            <div className="flex gap-2 mt-3 pt-3 border-t" style={{ borderColor: C.border }}>
+              <Btn variant="ghost" small full onClick={() => onDetails(l)}>Details</Btn>
+              {l.status === "out" && (
+                <Btn variant="primary" small full onClick={() => onReturn(l)}>Return</Btn>
+              )}
             </div>
           </div>
         ))}

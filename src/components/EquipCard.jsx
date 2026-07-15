@@ -22,10 +22,14 @@ export function EquipCard({ e, staffById, onView }) {
     >
       <div className="flex items-start justify-between mb-3.5">
         <div
-          className="rounded-lg flex items-center justify-center"
+          className="rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
           style={{ background: `${C.red}1A`, width: 42, height: 42 }}
         >
-          <CatIcon cat={e.cat} size={20} color={C.redText} />
+          {e.img ? (
+            <img src={e.img} className="w-full h-full object-cover" alt={e.name} />
+          ) : (
+            <CatIcon cat={e.cat} size={20} color={C.redText} />
+          )}
         </div>
         <Badge status={e.status} />
       </div>
