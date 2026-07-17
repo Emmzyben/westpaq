@@ -1295,3 +1295,146 @@ export const LOG_INIT = [
     "managerSig": "signed"
   }
 ];
+
+/* Monthly checkout / check-in quantities — used by dashboard charts */
+export const MONTHLY = [
+  {
+    "month": "Jan",
+    "checkout": 65,
+    "checkin": 52
+  },
+  {
+    "month": "Feb",
+    "checkout": 59,
+    "checkin": 47
+  },
+  {
+    "month": "Mar",
+    "checkout": 81,
+    "checkin": 68
+  },
+  {
+    "month": "Apr",
+    "checkout": 45,
+    "checkin": 58
+  },
+  {
+    "month": "May",
+    "checkout": 56,
+    "checkin": 44
+  },
+  {
+    "month": "Jun",
+    "checkout": 80,
+    "checkin": 71
+  },
+  {
+    "month": "Jul",
+    "checkout": 50,
+    "checkin": 39
+  }
+];
+
+export const PIE_COLORS = ["#22A567","#4C7FB5","#E9A22B","#38BDF8","#E4241F"];
+
+export const PROJECTS_INIT = [
+  {
+    "id": "proj1784294376882",
+    "name": "test",
+    "location": "ph",
+    "description": "test",
+    "duration": 10,
+    "startDate": "2026-07-17",
+    "closeDate": "2026-07-26",
+    "log": []
+  },
+  {
+    "id": "p1",
+    "name": "Bonga FPSO Scaffold Campaign",
+    "location": "Offshore � Bonga Field",
+    "description": "Full scaffold build-up around the flare tower for the Q3 inspection and maintenance campaign.",
+    "duration": 45,
+    "startDate": "2026-05-01",
+    "closeDate": "2026-06-15",
+    "log": [
+      {
+        "date": "2026-05-02 08:15",
+        "item": "6M Pipe",
+        "tag": "�",
+        "action": "out",
+        "qty": 400,
+        "tech": "Katie Bassey"
+      },
+      {
+        "date": "2026-05-02 08:20",
+        "item": "Board Clamp",
+        "tag": "�",
+        "action": "out",
+        "qty": 220,
+        "tech": "Katie Bassey"
+      },
+      {
+        "date": "2026-06-10 14:00",
+        "item": "6M Pipe",
+        "tag": "�",
+        "action": "in",
+        "qty": 180,
+        "tech": "Katie Bassey"
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "name": "Egina Turnaround Maintenance",
+    "location": "Offshore � Egina Field",
+    "description": "Planned shutdown turnaround � instrument calibration checks and lifting operations for topside pumps.",
+    "duration": 21,
+    "startDate": "2026-06-20",
+    "closeDate": "2026-07-11",
+    "log": [
+      {
+        "date": "2026-06-21 09:00",
+        "item": "Vernier Caliper",
+        "tag": "58678",
+        "action": "out",
+        "qty": 1,
+        "tech": "Ken Larry"
+      },
+      {
+        "date": "2026-06-22 10:30",
+        "item": "Flat Polyester Webbing Sling",
+        "tag": "�",
+        "action": "out",
+        "qty": 2,
+        "tech": "Chiamaka Bello"
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "name": "Aveon Yard Fabrication",
+    "location": "Onshore � Aveon Yard",
+    "description": "Structural fabrication support � welding sets and gas cylinder supply for the new module build.",
+    "duration": 60,
+    "startDate": "2026-04-01",
+    "closeDate": "2026-05-31",
+    "log": [
+      {
+        "date": "2026-04-03 08:00",
+        "item": "Miller Welding Machine 907810",
+        "tag": "907810",
+        "action": "out",
+        "qty": 2,
+        "tech": "Jovi Obu"
+      },
+      {
+        "date": "2026-05-28 16:00",
+        "item": "Miller Welding Machine 907810",
+        "tag": "907810",
+        "action": "in",
+        "qty": 2,
+        "tech": "Jovi Obu"
+      }
+    ]
+  }
+];

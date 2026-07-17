@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { C } from "./theme/tokens";
-import { CATS, FIELD_SCHEMAS, STAFF_INIT, EQUIPMENT_INIT, LOG_INIT } from "./data/mockData";
+import { CATS, FIELD_SCHEMAS, STAFF_INIT, EQUIPMENT_INIT, LOG_INIT, PROJECTS_INIT } from "./data/mockData";
 import { Sidebar } from "./components/Sidebar";
 import { Topbar } from "./components/Topbar";
 import { ViewItemModal, AddEquipmentModal, CheckoutModal, ReturnModal, RecordDetailsModal } from "./components/Modals";
@@ -14,6 +14,8 @@ import Register from "./pages/Register";
 import Staff from "./pages/Staff";
 import Profile from "./pages/Profile";
 import ManageInventory from "./pages/ManageInventory";
+import Projects from "./pages/Projects";
+import ProjectDetail from "./pages/ProjectDetail";
 
 const emptyForm = {
   cat: "general", location: "Offshore", qty: 1,
@@ -28,6 +30,7 @@ export default function App() {
   const [staff, setStaff] = useState(STAFF_INIT);
   const [equipment, setEquipment] = useState(EQUIPMENT_INIT);
   const [log, setLog] = useState(LOG_INIT);
+  const [projects, setProjects] = useState(PROJECTS_INIT);
   const [viewItem, setViewItem] = useState(null);
   const [addOpen, setAddOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -48,12 +51,12 @@ export default function App() {
       fetch('/api/saveData', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ equipment, log, staff, categories, fieldSchemas })
+        body: JSON.stringify({ equipment, log, staff, categories, fieldSchemas, projects })
       }).catch(err => console.error("Failed to persist data:", err));
     }, 500); // Small debounce to batch rapid state updates
 
     return () => clearTimeout(timeout);
-  }, [equipment, log, staff, categories, fieldSchemas]);
+  }, [equipment, log, staff, categories, fieldSchemas, projects]);
 
   const catById = (id) => categories.find((c) => c.id === id);
   const staffById = (id) => staff.find((s) => s.id === id);
@@ -105,6 +108,15 @@ export default function App() {
     };
     
     setLog([newTx, ...log]);
+    
+    if (formData.projectId) {
+      setProjects(projects.map(p => 
+        p.id === formData.projectId
+          ? { ...p, log: [{ date: newTx.dateOut, item: newTx.name, tag: newTx.tag, action: "out", qty: 1, tech: newTx.tech }, ...p.log] }
+          : p
+      ));
+    }
+    
     setCheckoutOpen(false);
     toast(`${equip.name} checked out to ${tech.name}`, { type: "success", title: "Checkout Successful" });
   }
@@ -232,6 +244,8 @@ export default function App() {
             <Route path="/staff" element={
               <Staff staff={staff} setStaff={setStaff} equipment={equipment} toggleSupervisor={toggleSupervisor} log={log} />
             } />
+            <Route path="/projects" element={<Projects projects={projects} setProjects={setProjects} />} />
+            <Route path="/projects/:projectId" element={<ProjectDetail projects={projects} />} />
             <Route path="/profile" element={<Profile log={log} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
@@ -270,6 +284,7 @@ export default function App() {
         <CheckoutModal
           equipmentList={equipment}
           staffList={staff}
+          projectsList={projects}
           onSubmit={handleCheckout}
           onClose={() => setCheckoutOpen(false)}
         />

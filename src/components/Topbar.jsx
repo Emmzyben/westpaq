@@ -8,14 +8,19 @@ const META = {
   "/": { title: "Dashboard", crumb: "Overview of yard activity" },
   "/inventory": { title: "Inventory", crumb: "Browse assets by category" },
   "/register": { title: "Equipment Register", crumb: "Full check-out / check-in log" },
+  "/projects": { title: "Projects", crumb: "Projects and the equipment tied to them" },
   "/staff": { title: "Staff", crumb: "Manage staff and supervisors" },
   "/profile": { title: "Profile", crumb: "Your account" },
 };
 
+
 export function Topbar({ onNewEntry, onMenuClick, equipment = [], categories = [] }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const base = location.pathname.startsWith("/inventory/") ? "/inventory" : location.pathname;
+  const base = location.pathname.startsWith("/inventory/") ? "/inventory"
+             : location.pathname.startsWith("/projects/")  ? "/projects"
+             : location.pathname.startsWith("/manage-inventory") ? "/manage-inventory"
+             : location.pathname;
   const meta = META[base] || { title: "WestPaq", crumb: "" };
 
   const [query, setQuery] = useState("");

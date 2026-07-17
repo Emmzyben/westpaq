@@ -285,9 +285,9 @@ export function StaffModal({ initialData, onSave, onClose }) {
   );
 }
 
-export function CheckoutModal({ equipmentList, staffList, onSubmit, onClose }) {
+export function CheckoutModal({ equipmentList, staffList, projectsList = [], onSubmit, onClose }) {
   const [form, setForm] = useState({
-    tag: "", equipmentId: "", project: "", location: "", staffId: "", sig: ""
+    tag: "", equipmentId: "", projectId: "", project: "", location: "", staffId: "", sig: ""
   });
 
   const selectedItem = form.equipmentId ? equipmentList.find(e => e.id === form.equipmentId) : null;
@@ -325,14 +325,37 @@ export function CheckoutModal({ equipmentList, staffList, onSubmit, onClose }) {
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Project Description</label>
-              <input required value={form.project} onChange={(e) => setForm({ ...form, project: e.target.value })} placeholder="e.g. NLNG Contract" className="w-full px-3.5 py-2.5 rounded-lg text-sm" style={{ border: `1px solid ${C.border}` }} />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Project Location</label>
-              <input required value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Nembe" className="w-full px-3.5 py-2.5 rounded-lg text-sm" style={{ border: `1px solid ${C.border}` }} />
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Project</label>
+            <select
+              value={form.projectId}
+              onChange={(e) => {
+                const pid = e.target.value;
+                const p = projectsList.find(proj => proj.id === pid);
+                if (p) {
+                  setForm({ ...form, projectId: pid, project: p.name, location: p.location });
+                } else {
+                  setForm({ ...form, projectId: "", project: "", location: "" });
+                }
+              }}
+              className="w-full px-3.5 py-2.5 rounded-lg text-sm bg-white mb-3"
+              style={{ border: `1px solid ${C.border}` }}
+            >
+              <option value="">— Select a project or enter manually below —</option>
+              {projectsList.map((p) => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Project Description</label>
+                <input required value={form.project} onChange={(e) => setForm({ ...form, project: e.target.value })} placeholder="e.g. NLNG Contract" className="w-full px-3.5 py-2.5 rounded-lg text-sm" style={{ border: `1px solid ${C.border}` }} />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wide mb-1.5" style={{ color: C.ink2 }}>Project Location</label>
+                <input required value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Nembe" className="w-full px-3.5 py-2.5 rounded-lg text-sm" style={{ border: `1px solid ${C.border}` }} />
+              </div>
             </div>
           </div>
 

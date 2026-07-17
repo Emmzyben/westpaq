@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, Boxes, ClipboardList, Users, UserCircle2, X, ListTodo, LogOut } from "lucide-react";
+import { LayoutDashboard, Boxes, ClipboardList, Users, UserCircle2, X, ListTodo, LogOut, FolderKanban } from "lucide-react";
 import { C } from "../theme/tokens";
 import { Avatar } from "./Avatar";
 
@@ -8,6 +8,7 @@ const navItems = [
   { id: "inventory", label: "Inventory", icon: Boxes, group: "Assets", path: "/inventory" },
   { id: "manage-inventory", label: "Manage Inventory", icon: ListTodo, group: "Assets", path: "/manage-inventory" },
   { id: "register", label: "Equipment Register", icon: ClipboardList, group: "Assets", path: "/register" },
+  { id: "projects", label: "Projects",           icon: FolderKanban, group: "Assets", path: "/projects" },
   { id: "staff", label: "Staff", icon: Users, group: "People", path: "/staff" },
   { id: "profile", label: "Profile", icon: UserCircle2, group: "People", path: "/profile" },
 ];
@@ -21,6 +22,7 @@ export function Sidebar({ isOpen, setIsOpen, onLogout }) {
     if (location.pathname.startsWith("/inventory")) return "inventory";
     if (location.pathname.startsWith("/manage-inventory")) return "manage-inventory";
     if (location.pathname.startsWith("/register")) return "register";
+    if (location.pathname.startsWith("/projects")) return "projects";
     if (location.pathname.startsWith("/staff")) return "staff";
     if (location.pathname.startsWith("/profile")) return "profile";
     return "dashboard";
