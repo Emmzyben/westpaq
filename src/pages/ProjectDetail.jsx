@@ -14,7 +14,7 @@ export default function ProjectDetail({ projects }) {
     return (
       <div className="text-center py-20" style={{ color: C.ink3 }}>
         <p className="text-sm">Project not found.</p>
-        <button
+        <button 
           className="mt-4 text-sm font-bold"
           style={{ color: C.red }}
           onClick={() => navigate("/projects")}

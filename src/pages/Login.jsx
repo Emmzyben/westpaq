@@ -21,7 +21,7 @@ export default function Login({ onLogin }) {
             className="text-xs tracking-widest uppercase font-semibold mb-4"
             style={{ color: "rgba(255,255,255,0.55)" }}
           >
-            Smart Equipment Register
+            Equipment Intelligence Platform (EIP)
           </div>
           <h1 className="text-4xl font-bold text-white leading-tight">
             Every piece of kit, tracked the moment it leaves the yard.
@@ -72,26 +72,14 @@ export default function Login({ onLogin }) {
                 </button>
               </div>
             </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wide mb-2" style={{ color: C.ink2 }}>Sign in as</label>
-              <select
-                className="w-full px-3.5 py-3 rounded-lg text-sm outline-none"
-                style={{ border: `1px solid ${C.border}` }}
-              >
-                <option>Administrator</option>
-                <option>Manager</option>
-                <option>Supervisor</option>
-              </select>
-            </div>
+
             <div className="pt-2">
               <Btn variant="primary" full type="submit">
                 Sign in to dashboard <ArrowRight size={15} />
               </Btn>
             </div>
           </form>
-          <p className="mt-6 text-xs text-center" style={{ color: C.ink3 }}>
-            WestPaq Ltd · 1 Sugar Creek Center Blvd, Ste 600, Sugar Land, TX 77478
-          </p>
+
         </div>
       </div>
     </div>
