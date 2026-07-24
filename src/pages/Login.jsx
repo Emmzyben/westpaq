@@ -14,7 +14,7 @@ export default function Login({ onLogin }) {
         style={{ background: `linear-gradient(165deg, ${C.redDeep} 0%, #2a0607 55%, #0E0F11 100%)` }}
       >
         <div className="flex items-center gap-2.5 relative z-10">
-          <img src="/logo.jpeg" alt="WestPaq" className="h-20 w-auto object-contain brightness-200" />
+          {/* <img src="/logo.jpeg" alt="WestPaq" className="h-20 w-auto object-contain brightness-200" /> */}
         </div>
         <div className="relative z-10 max-w-md">
           <div
@@ -29,6 +29,22 @@ export default function Login({ onLogin }) {
           <p className="mt-4 text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>
             Manage equipment movements from the yard to the field
           </p>
+        </div>
+
+        {/* Faded watermark logo (arrows only) */}
+        <div className="absolute -bottom-10 -right-10 pointer-events-none mix-blend-screen opacity-[0.3]">
+          <div style={{ width: '550px', height: '360px', overflow: 'hidden' }}>
+            <img
+              src="/logo.jpeg"
+              alt=""
+              style={{
+                width: '100%',
+                height: 'auto',
+                filter: 'invert(1) hue-rotate(180deg) saturate(3) brightness(1.2)',
+                transform: 'translateY(-5%)'
+              }}
+            />
+          </div>
         </div>
       </div>
 
